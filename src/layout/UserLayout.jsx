@@ -2,7 +2,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AppSidebar from "../components/sideBar/AppSidebar";
 import { Outlet } from "react-router-dom";
 
-const WomenLayout = () => {
+const UserLayout = () => {
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -14,4 +14,4 @@ const WomenLayout = () => {
   );
 };
 
-export default WomenLayout;
+export default UserLayout;
