@@ -44,7 +44,7 @@ export const useThemeStore = create(
 
         let effectiveTheme = defaultTheme;
         if (defaultTheme === "system") {
-          effectiveTheme = prefersDark ? "dark" : "light";
+          effectiveTheme = prefersDark ? "light" : "light"; // Remember to change back to dark
         }
 
         updateHtmlClass(effectiveTheme);
@@ -58,7 +58,7 @@ export const useThemeStore = create(
         const handleChange = (e) => {
           const currentTheme = useThemeStore.getState().theme;
           if (currentTheme === "system") {
-            updateHtmlClass(e.matches ? "dark" : "light");
+            updateHtmlClass(e.matches ? "dark" : "light"); 
           }
         };
 
