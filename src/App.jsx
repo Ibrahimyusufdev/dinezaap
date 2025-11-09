@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useThemeStore } from "./store/useThemeStore";
 import { useEffect } from "react";
 import NoPage from "./pages/NoPage";
-import UserLayout from "./layout/UserLayout";
+import UserLayout from "./layout/DashboardLayout";
 
 import Dashboard from "./features/user/pages/Dashboard";
 import Explore from "./features/user/pages/Explore";
@@ -14,6 +14,7 @@ import ProtectedRoutes from "./routes/ProtectedRoutes";
 import LoginPage from "./features/auth/pages/LoginPage";
 import AuthLayout from "./layout/AuthLayout";
 import SignupPage from "./features/auth/pages/SignupPage";
+import DashboardLayout from "./layout/DashboardLayout";
 
 const App = () => {
   const initializeTheme = useThemeStore((state) => state.initializeTheme);
@@ -26,19 +27,21 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         {/* Auth Layout Routing*/}
-        <Route path="/" element={<AuthLayout />}>
+        <Route element={<AuthLayout />}>
           <Route path="/login-page" element={<LoginPage />} />
           <Route path="/signup-page" element={<SignupPage />} />
         </Route>
 
         {/* Protected Routes for user */}
         <Route element={<ProtectedRoutes />}>
-          <Route index element={<Dashboard />} />
-          <Route path="/user/explore" element={<Explore />} />
-          <Route path="/user/reservations" element={<Reservations />} />
-          <Route path="/user/earnings" element={<Earnings />} />
-          <Route path="/user/invite" element={<Invite />} />
-          <Route path="/user/messages" element={<Messages />} />
+          <Route element={<DashboardLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="/user/explore" element={<Explore />} />
+            <Route path="/user/reservations" element={<Reservations />} />
+            <Route path="/user/earnings" element={<Earnings />} />
+            <Route path="/user/invite" element={<Invite />} />
+            <Route path="/user/messages" element={<Messages />} />
+          </Route>
         </Route>
 
         {/* No page route */}
@@ -50,19 +53,17 @@ const App = () => {
 
 export default App;
 
+{
+  /* <Route path="/" element={<UserLayout />}>
+  <Route index element={<Dashboard />} />
+  <Route path="/user/explore" element={<Explore />} />
+  <Route path="/user/reservations" element={<Reservations />} />
+  <Route path="/user/earnings" element={<Earnings />} />
+  <Route path="/user/invite" element={<Invite />} />
+  <Route path="/user/messages" element={<Messages />} />
+  <Route path="/loginPage" element={<LoginPage />} /> */
+}
 
-        // <Route path="/" element={<UserLayout />}>
-        //   {/* <Route index element={<Dashboard />} />
-        //   <Route path="/user/explore" element={<Explore />} />
-        //   <Route path="/user/reservations" element={<Reservations />} />
-        //   <Route path="/user/earnings" element={<Earnings />} />
-        //   <Route path="/user/invite" element={<Invite />} />
-        //   <Route path="/user/messages" element={<Messages />} /> */}
-        //   <Route path="/loginPage" element={<LoginPage />} />
+//   {/* Auth Layout Routing*/}
 
-        //   {/* Auth Layout Routing*/}
-             
-         
-
-        
-        // </Route>
+// // </Route>
