@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useThemeStore } from "./store/useThemeStore";
+
 import { useEffect } from "react";
 import NoPage from "./pages/NoPage";
-import UserLayout from "./layout/DashboardLayout";
 
-import Dashboard from "./features/user/pages/Dashboard";
+// Pages from User
+import DashboardUser from "./features/user/pages/DashboardUser";
 import Explore from "./features/user/pages/Explore";
 import Earnings from "./features/user/pages/Earnings";
 import Invite from "./features/user/pages/Invite";
@@ -14,7 +14,16 @@ import ProtectedRoutes from "./routes/ProtectedRoutes";
 import LoginPage from "./features/auth/pages/LoginPage";
 import AuthLayout from "./layout/AuthLayout";
 import SignupPage from "./features/auth/pages/SignupPage";
+
+// Pages from restaurant
+import DashboardRestaurant from "./features/restaurant/pages/DashboardRestaurant";
+
+// Dashboard Layout
 import DashboardLayout from "./layout/DashboardLayout";
+
+// store
+import { useAuthStore } from "./store/useAuthStore";
+import { useThemeStore } from "./store/useThemeStore";
 
 const App = () => {
   const initializeTheme = useThemeStore((state) => state.initializeTheme);
@@ -22,6 +31,29 @@ const App = () => {
   useEffect(() => {
     initializeTheme();
   }, [initializeTheme]);
+
+  const user = useAuthStore((state) => state.user);
+
+  const renderRouting = () => {
+    if (user.role === "user") {
+      return (
+        <Route element={<DashboardLayout />}>
+          <Route index element={<DashboardUser />} />
+          <Route path="/user/explore" element={<Explore />} />
+          <Route path="/user/reservations" element={<Reservations />} />
+          <Route path="/user/earnings" element={<Earnings />} />
+          <Route path="/user/invite" element={<Invite />} />
+          <Route path="/user/messages" element={<Messages />} />
+        </Route>
+      );
+    } else if (user.role == "restaurant") {
+      return (
+
+      )
+    }
+
+    return null;
+  };
 
   return (
     <BrowserRouter>
