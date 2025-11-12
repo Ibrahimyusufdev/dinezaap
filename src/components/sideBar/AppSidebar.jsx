@@ -69,7 +69,7 @@ const sidebarData = {
   },
 };
 
-const AppSidebar = ({ type = "user" }) => {
+const AppSidebar = ({ type }) => {
   // Get the type of logged user and set items accordingly
   const data = sidebarData[type];
   useEffect(() => {
@@ -77,19 +77,19 @@ const AppSidebar = ({ type = "user" }) => {
   }, [data]);
 
   return (
-    <Sidebar collapsible="icon" >
+    <Sidebar collapsible="icon">
       <SidebarHeader>
         <SideHeader />
       </SidebarHeader>
 
-      <SidebarContent className="ml-1.5" >
+      <SidebarContent className="ml-1.5">
         {/* Main navigation items */}
         <NavMain items={data.navMain} />
       </SidebarContent>
 
       {/* Footer navigation items, where user can also signout */}
       <SidebarFooter>
-        <NavUser user={data} />
+        <NavUser  />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

@@ -17,6 +17,9 @@ import SignupPage from "./features/auth/pages/SignupPage";
 
 // Pages from restaurant
 import DashboardRestaurant from "./features/restaurant/pages/DashboardRestaurant";
+import Analytics from "./features/restaurant/pages/Analytics";
+import Payment from "./features/restaurant/pages/Payment";
+import Offer from "./features/restaurant/pages/Offer.jsx";
 
 // Dashboard Layout
 import DashboardLayout from "./layout/DashboardLayout";
@@ -35,7 +38,7 @@ const App = () => {
   const user = useAuthStore((state) => state.user);
 
   const renderRouting = () => {
-    if (user.role === "user") {
+    if (user?.role === "user") {
       return (
         <Route element={<DashboardLayout />}>
           <Route index element={<DashboardUser />} />
@@ -46,10 +49,15 @@ const App = () => {
           <Route path="/user/messages" element={<Messages />} />
         </Route>
       );
-    } else if (user.role == "restaurant") {
+    } else if (user?.role == "restaurant") {
       return (
-
-      )
+        <Route element={<DashboardLayout />}>
+          <Route index element={<DashboardRestaurant />} />
+          <Route path="/restaurant/analytics" element={<Analytics />} />
+          <Route path="/restaurant/payment" element={<Payment />} />
+          <Route path="/restaurant/offer" element={<Offer />} />
+        </Route>
+      );
     }
 
     return null;
@@ -59,22 +67,13 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         {/* Auth Layout Routing*/}
-        <Route element={<AuthLayout />}>
-          <Route path="/login-page" element={<LoginPage />} />
+        <Route path="/" element={<AuthLayout />}>
+          <Route index path="/login-page" element={<LoginPage />} />
           <Route path="/signup-page" element={<SignupPage />} />
         </Route>
 
         {/* Protected Routes for user */}
-        <Route element={<ProtectedRoutes />}>
-          <Route element={<DashboardLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="/user/explore" element={<Explore />} />
-            <Route path="/user/reservations" element={<Reservations />} />
-            <Route path="/user/earnings" element={<Earnings />} />
-            <Route path="/user/invite" element={<Invite />} />
-            <Route path="/user/messages" element={<Messages />} />
-          </Route>
-        </Route>
+        <Route element={<ProtectedRoutes />}>{renderRouting()}</Route>
 
         {/* No page route */}
         <Route path="*" element={<NoPage />} />

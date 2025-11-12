@@ -1,3 +1,4 @@
+// Shadcn ui
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -8,33 +9,37 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarRail,
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
   useSidebar,
 } from "@/components/ui/sidebar";
-import {
-  LayoutDashboard,
-  Compass,
-  Book,
-  DollarSign,
-  Share2,
-  MessageSquareText,
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Sparkles,
-} from "lucide-react";
 
-const NavUser = ({ user }) => {
+import { Button } from "@/components/ui/button";
+
+import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from "lucide-react";
+
+// React router
+import { useNavigate } from "react-router-dom";
+
+// Auth store
+import { useAuthStore } from "../../store/useAuthStore";
+
+const NavUser = () => {
+  // datas and func from authstore for composition
+  const logout = useAuthStore((state) => state.logout);
+  const user = useAuthStore((state) => state.user);
+
+  const navigate = useNavigate();
+
+  // logout logic and redirecting to login page
+  const handlelogout = () => {
+    logout();
+    navigate("/");
+  };
+
   const { isMobile } = useSidebar();
   return (
     <SidebarMenu>
@@ -46,15 +51,12 @@ const NavUser = ({ user }) => {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage
-                  src={user.loggedUser.avatar}
-                  alt={user.loggedUser.name}
-                />
+                <AvatarImage src={user.avatar} alt={user.name} />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.loggedUser.name}</span>
-                <span className="truncate text-xs">{user.loggedUser.email}</span>
+                <span className="truncate font-medium">{user.name}</span>
+                <span className="truncate text-xs">{user.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -68,15 +70,12 @@ const NavUser = ({ user }) => {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage
-                    src={user.loggedUser.avatar}
-                    alt={user.loggedUser.name}
-                  />
+                  <AvatarImage src={user.avatar} alt={user.name} />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.loggedUser.name}</span>
-                  <span className="truncate text-xs">{user.loggedUser.email}</span>
+                  <span className="truncate font-medium">{user.name}</span>
+                  <span className="truncate text-xs">{user.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
@@ -104,8 +103,10 @@ const NavUser = ({ user }) => {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <LogOut />
-              Log out
+              <Button onClick={handlelogout} variant="outline">
+                <LogOut />
+                Log out
+              </Button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

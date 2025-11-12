@@ -6,13 +6,19 @@ export const useAuthStore = create(
   persist(
     immer((set) => ({
       user: {
-        name: "Ibrahim",
+        name: "Ibrahim Yusuf",
         role: "user",
-        email: "ibrahimyusuf1304@gmail.com"
+        email: "ibrahimyusuf1304@gmail.com",
       },
+
+      logout: () => set({ user: null }),
     })),
     {
-      // your persist logic here
+      name: "auth-storage",
+      getStorage: () => localStorage,
+      partialize: (state) => ({
+        user: state.user,
+      }),
     }
   )
 );
