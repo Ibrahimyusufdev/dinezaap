@@ -28,6 +28,9 @@ import DashboardLayout from "./layout/DashboardLayout";
 import { useAuthStore } from "./store/useAuthStore";
 import { useThemeStore } from "./store/useThemeStore";
 
+// Signup form
+import SignupFormCard from "./features/user/auth/SignupFormCard.jsx";
+
 const App = () => {
   const initializeTheme = useThemeStore((state) => state.initializeTheme);
 
@@ -36,6 +39,15 @@ const App = () => {
   }, [initializeTheme]);
 
   const user = useAuthStore((state) => state.user);
+
+  // Testing out components I am building
+  const display = true;
+
+  if (display) return (
+    <>
+      <SignupFormCard />
+    </>
+  )
 
   const renderRouting = () => {
     if (user?.role === "user") {

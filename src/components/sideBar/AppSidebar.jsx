@@ -24,6 +24,9 @@ import NavMain from "./NavMain";
 import NavUser from "./NavUser";
 import SideHeader from "./SideHeader";
 
+// authStore
+import { useAuthStore } from "../../store/useAuthStore";
+
 /*
  Sidebar data for user and restaurants. 
  Remember to get the logged user based on role from your store
@@ -69,9 +72,11 @@ const sidebarData = {
   },
 };
 
-const AppSidebar = ({ type }) => {
+const AppSidebar = () => {
+  const user = useAuthStore((state) => state.user);
   // Get the type of logged user and set items accordingly
-  const data = sidebarData[type];
+  const userType = user.role
+  const data = sidebarData[userType];
   useEffect(() => {
     console.log(data);
   }, [data]);
