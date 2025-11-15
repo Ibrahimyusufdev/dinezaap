@@ -9,8 +9,8 @@ export const signupSchema = z
 
     lastName: z
       .string()
-      .min(2, "First name must be at least two letter")
-      .max(30, "First name cannot be more than 30 letters"),
+      .min(2, "Last name must be at least two letter")
+      .max(30, "Last name cannot be more than 30 letters"),
 
     email: z.email({ pattern: z.regexes.email }),
 
