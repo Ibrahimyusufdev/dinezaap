@@ -3,6 +3,9 @@ import { Field, FieldLabel, FieldError, FieldDescription } from "@/components/ui
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
+import { MultiSelect } from "../../../components/common/MultiSelect";
+
+import Select from "react-select";
 
 // Lucide react
 import { Eye, EyeOff } from "lucide-react";
@@ -28,11 +31,19 @@ const SignupForm = () => {
       email: "",
       password: "",
       confirmPassword: "",
-      preferredDiningLocations: "",
-      profilePicture: null,
-      agreeToTerms: null,
+      preferredDiningLocations: [],
     },
   });
+
+  // Dining options
+  const diningOptions = [
+    { label: "Lagos Island", value: "lagos_island" },
+    { label: "Ikeja", value: "ikeja" },
+    { label: "Yaba", value: "yaba" },
+    { label: "Lekki", value: "lekki" },
+    { label: "Surulere", value: "surulere" },
+    { label: "Gbagada", value: "gbagada" },
+  ];
 
   // state for toggling password open & close
   const [showPassword, setShowPassword] = useState(false);
@@ -170,8 +181,6 @@ const SignupForm = () => {
         )}
       />
 
-   
-
       {/* Phone Number input wiring up */}
       <Controller
         name="phoneNumber"
@@ -194,8 +203,36 @@ const SignupForm = () => {
         )}
       />
 
+      {/* preferred dining location multiple select wiring up  */}
+      <Controller
+        name="preferredDiningLocations"
+        control={form.control}
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor={field.name}>Preferred Dining Locations</FieldLabel>
+            <Select
+              {...field}
+              options={diningOptions}
+              id={field.name}
+              isMulti
+              closeMenuOnSelect={false}
+              placeholder="Select locations"
+              value={diningOptions.filter((option) => field.value.includes(option.value))}
+              onChange={(selectedOptions) => {
+                // Map selected objects to array of string values
+                const values = selectedOptions ? selectedOptions.map((option) => option.value) : [];
+                field.onChange(values);
+              }}
+              isClearable
+            />
+
+            {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
+          </Field>
+        )}
+      />
+
       {/* Button */}
-      <Button type="submit" disabled={isSubmitDisabled}>
+      <Button type="submit">
         {form.formState.isSubmitting ? (
           <>
             <Spinner />

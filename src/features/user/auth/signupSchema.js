@@ -36,23 +36,14 @@ export const signupSchema = z
       .max(5, "Choose up to 5 locations")
       .refine((arr) => new Set(arr).size === arr.length, "Duplicate locations are not allowed"),
 
-    profilePicture: z
-      .file("Please select an image file")
-      .min(10_000)
-      .max(1_000_000, "The image is too large")
-      .mime(["image/png", "image/jpeg"], "Please upload a valid image file (JPEG/PNG)"),
+    // profilePicture: z
+    //   .file("Please select an image file")
+    //   .min(10_000)
+    //   .max(1_000_000, "The image is too large")
+    //   .mime(["image/png", "image/jpeg"], "Please upload a valid image file (JPEG/PNG)"),
 
-    agreeToTerms: z.boolean().refine((val) => val === true, {
-      error: "Please accept the terms and conditions",
-    }),
+    // agreeToTerms: z.boolean().refine((val) => val === true, {
+    //   error: "Please accept the terms and conditions",
+    // }),
   })
-  .refine((data) => data.password === data.confirmPassword, {
-    error: "Password do not match",
-    path: ["confirmPassword"],
-
-    // Run if password & confirmPassword are valid
-    when(payload) {
-      return signupSchema.pick({ password: true, confirmPassword: true }).safeParse(payload.value)
-        .success;
-    },
-  });
+ 
